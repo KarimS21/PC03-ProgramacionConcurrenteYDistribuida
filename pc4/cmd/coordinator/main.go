@@ -64,7 +64,7 @@ func main() {
 		}
 		jobID := fmt.Sprintf("job-%d", time.Now().UnixNano())
 		start := time.Now()
-		responses, err := coordinator.Send(cluster.Request{Type: "TRAIN", JobID: jobID, DataPath: *dataPath}, 20*time.Second)
+		responses, err := coordinator.Send(cluster.Request{Type: "TRAIN", JobID: jobID, DataPath: *dataPath}, 120*time.Second)
 		if err != nil {
 			writeJSON(w, http.StatusServiceUnavailable, map[string]any{"error": err.Error()})
 			return

@@ -40,6 +40,8 @@ La solución PC4 agrega un coordinador HTTP/TCP y tres nodos ML:
 - API REST en `:8080`, documentación Swagger en `/swagger`.
 - Coordinador TCP en `:9090`.
 - Tres servicios `ml-node-*` que reciben tareas por canales Go y JSON sobre TCP.
+- Cada nodo ML entrena 6 árboles CART con una muestra bootstrap de su partición.
+- El coordinador agrega las 18 predicciones parciales como voto suave del bosque distribuido.
 - MongoDB como persistencia y Redis como caché.
 - Docker Compose para levantar MongoDB, Redis, API y los tres nodos.
 

@@ -12,7 +12,7 @@ PC4 = os.path.join(ROOT, "pc4")
 SOURCE = os.path.join(ROOT, "1ACC0065_PC3_202620_Informe_Grupo3.docx")
 OUTPUT = os.path.join(ROOT, "1ACC0065_PC4_202620_Informe_Grupo3.docx")
 
-evidence_path = os.path.join(PC4, "evidencias", "prueba-api-docker.json")
+evidence_path = os.path.join(PC4, "evidencias", "prueba-random-forest-docker.json")
 with open(evidence_path, "r", encoding="utf-8-sig") as f:
     evidence = json.load(f)
 
@@ -147,7 +147,12 @@ doc.add_paragraph(
 )
 doc.add_paragraph(
     "La partición del dataset es determinista por hash del distrito. Cada nodo procesa una tercera parte "
-    "disjunta. Las tareas se codifican como mensajes JSON con tipo, identificador de trabajo y datos solicitados."
+    "disjunta y construye 6 árboles CART con muestreo bootstrap. Las tareas se codifican como mensajes JSON "
+    "con tipo, identificador de trabajo y datos solicitados."
+)
+doc.add_paragraph(
+    "El bosque distribuido contiene 18 árboles: 6 en cada uno de los tres nodos. El coordinador solicita "
+    "una predicción a los nodos y promedia sus probabilidades por clase."
 )
 
 add_heading("2. API y Swagger", 1)
@@ -229,8 +234,8 @@ doc.add_paragraph(
 add_heading("Recomendaciones", 1)
 doc.add_paragraph(
     "Adjuntar capturas visuales de Postman y MongoDB/Redis, integrar "
-    "JWT, desarrollar la SPA para TB2 y sustituir la predicción determinista por el Random Forest distribuido "
-    "completo cuando existan microdatos con hora observada."
+    "JWT y desarrollar la SPA para TB2. Con microdatos horarios reales puede ampliarse el bosque distribuido "
+    "y reemplazar la franja derivada por la hora observada."
 )
 
 add_heading("Anexos", 1)

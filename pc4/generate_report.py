@@ -12,7 +12,7 @@ PC4 = os.path.join(ROOT, "pc4")
 SOURCE = os.path.join(ROOT, "1ACC0065_PC3_202620_Informe_Grupo3.docx")
 OUTPUT = os.path.join(ROOT, "1ACC0065_PC4_202620_Informe_Grupo3.docx")
 
-evidence_path = os.path.join(PC4, "evidencias", "prueba-api.json")
+evidence_path = os.path.join(PC4, "evidencias", "prueba-api-docker.json")
 with open(evidence_path, "r", encoding="utf-8-sig") as f:
     evidence = json.load(f)
 
@@ -67,7 +67,7 @@ rows = [
     ("Predicción cálida", f"{evidence['WarmMs']} ms"),
     ("20 ejecuciones", f"Promedio {evidence['Average20Ms']} ms; mínimo {evidence['Min20Ms']} ms; máximo {evidence['Max20Ms']} ms"),
     ("Clase predicha", f"{evidence['WarmResponse']['topClass']} ({evidence['WarmResponse']['topProbability']:.4f})"),
-    ("Almacenamiento", "MongoDB: disconnected; Redis: disconnected; modo memory-fallback"),
+    ("Almacenamiento", "MongoDB: connected; Redis: connected; modo persisted"),
 ]
 y = 110
 for label, value in rows:
@@ -75,7 +75,7 @@ for label, value in rows:
     pd.text((60, y + 14), label, fill="#17365D", font=box)
     pd.text((430, y + 16), value, fill="#333333", font=small)
     y += 78
-pd.text((40, 590), "Evidencia generada por pc4/test_api.ps1 el 21/11/2026.", fill="#666666", font=small)
+pd.text((40, 590), "Evidencia Docker real generada por pc4/test_api.ps1 el 21/11/2026.", fill="#666666", font=small)
 proof.save(proof_path)
 
 shutil.copy2(SOURCE, OUTPUT)
@@ -197,7 +197,9 @@ add_table(
         ("Predicción fría", f"{evidence['ColdMs']} ms."),
         ("Predicción cálida", f"{evidence['WarmMs']} ms."),
         ("20 predicciones", f"Promedio {evidence['Average20Ms']} ms; máximo {evidence['Max20Ms']} ms."),
-        ("Docker", "Docker Compose creado; no pudo ejecutarse porque Docker Desktop no estaba activo en el entorno."),
+        ("Docker", "Docker Compose ejecutado con 6 contenedores activos: coordinador, 3 nodos, MongoDB y Redis."),
+        ("MongoDB", "1 documento de predicción y 1 trabajo de entrenamiento persistidos."),
+        ("Redis", "1 clave de caché registrada en el despliegue."),
     ],
 )
 doc.add_paragraph(
@@ -209,8 +211,8 @@ doc.add_paragraph(
 add_heading("5. Correcciones para el informe final", 1)
 doc.add_paragraph(
     "Pendientes administrativos reales: enlace público final del repositorio, capturas auténticas del tablero "
-    "Kanban, reporte de participación con actividad verificable, capturas de Postman y ejecución Docker Compose "
-    "en un entorno con Docker activo."
+    "Kanban, reporte de participación con actividad verificable y capturas visuales de Postman. La ejecución "
+    "Docker Compose ya fue confirmada con Docker Desktop activo."
 )
 
 add_heading("Conclusiones", 1)
@@ -226,7 +228,7 @@ doc.add_paragraph(
 
 add_heading("Recomendaciones", 1)
 doc.add_paragraph(
-    "Ejecutar Docker Compose con Docker Desktop activo, adjuntar capturas de Postman y MongoDB/Redis, integrar "
+    "Adjuntar capturas visuales de Postman y MongoDB/Redis, integrar "
     "JWT, desarrollar la SPA para TB2 y sustituir la predicción determinista por el Random Forest distribuido "
     "completo cuando existan microdatos con hora observada."
 )
